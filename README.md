@@ -73,8 +73,9 @@ Cormorant. Vietnamese and Devanagari were dropped.
 It is a static folder — any host will do. Netlify, Cloudflare Pages, GitHub
 Pages, or plain nginx: point the document root at the repository.
 
-Before going live, replace the placeholder domain `https://salonsteika.lv/`
-in `index.html` (canonical + Open Graph + JSON-LD) and `sitemap.xml`.
+The canonical domain is **salonsteika.com**, set in `index.html` (canonical
+link, Open Graph, JSON-LD), `sitemap.xml` and `robots.txt`. If it ever changes,
+those are the places to update.
 
 ## Not carried over from the design
 
