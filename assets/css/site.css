@@ -719,6 +719,18 @@ section[id], [id="kontakti"] { scroll-margin-top: calc(var(--header-h) + 10px); 
    Everything else sits at plain centred cover; these two were
    repositioned by hand in Claude Design, so the offsets are
    reproduced here rather than baked into the files.
+
+   Expressed as object-position, NOT transform. The <img> box is
+   exactly the size of its frame, so translating it slides it off
+   the frame and exposes the background behind — which is what put
+   an 18px band above the hero. object-position moves the crop
+   WITHIN the box, so the frame stays covered at every viewport.
+   scale() is safe here: it only ever grows the image.
    ───────────────────────────────────────────────────────────── */
-img[src$="hero-hair-closeup.webp"] { transform: translateY(4.404%); }
-img[src$="gallery-02.webp"] { transform: translate(-0.748%, 8.593%) scale(1.1616); }
+img[src$="hero-hair-closeup.webp"] {
+  object-position: 50% 46%;
+}
+img[src$="gallery-02.webp"] {
+  object-position: 55% 23%;
+  transform: scale(1.1616);
+}
