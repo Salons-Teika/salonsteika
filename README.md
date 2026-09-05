@@ -70,11 +70,13 @@ Cormorant. Vietnamese and Devanagari were dropped.
 
 ## Deploying
 
-Hosted on **Vercel**, deployed from this repository. There is no build step —
-Vercel serves the folder as-is. Framework preset: *Other*; build command:
-none; output directory: the repository root.
+Hosted on **Cloudflare Pages**, deployed from this repository. There is no
+build step — the folder is served as-is. Framework preset: *None*; build
+command: empty; build output directory: `/` (the repository root).
 
-`vercel.json` sets three security headers and the cache policy:
+Header and cache rules are duplicated in two host-specific files, kept in
+sync: `_headers` (Cloudflare Pages, Netlify) and `vercel.json` (Vercel).
+Both set the same three security headers and the same cache policy:
 
 - `assets/fonts/*` — one year, immutable. Those filenames never change.
 - `assets/img/*` — one day, then revalidate. Photo filenames are **not**
@@ -85,11 +87,18 @@ none; output directory: the repository root.
 
 The canonical domain is **salonsteika.com**, set in `index.html` (canonical
 link, Open Graph, JSON-LD), `sitemap.xml` and `robots.txt`. If it ever changes,
-those are the places to update. Point the domain at Vercel in the project's
-Domains tab and add both the apex and `www`, with one redirecting to the other.
+those are the places to update. Attach the domain under the Pages project's
+Custom domains tab, adding both the apex and `www`, with one redirecting to
+the other.
 
-Nothing here is Vercel-specific apart from `vercel.json` — the site is a plain
-static folder and will run on Netlify, Cloudflare Pages or nginx unchanged.
+The site is a plain static folder, so it runs unchanged on Cloudflare Pages,
+Netlify, Vercel or nginx. Two things to know if you move it:
+
+- **Vercel's Hobby tier will not deploy this repo.** Hobby only accepts
+  repositories owned by a personal account, and this one belongs to the
+  `Salons-Teika` organization. Vercel offers a Pro trial instead.
+- Vercel's Hobby tier is also non-commercial only, which a salon's business
+  site is not. Cloudflare Pages has neither restriction.
 
 ## Not carried over from the design
 
