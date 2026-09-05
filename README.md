@@ -1,0 +1,87 @@
+# Salons Teika
+
+Landing page for **Salons Teika**, a hair salon at Džutas iela 10, Rīga (Teika).
+
+Built from the Claude Design mockup as a plain static site — no build step, no
+framework, no runtime dependencies. Open `index.html` and it works.
+
+## Layout
+
+```
+index.html              Full page markup (Latvian is in the HTML; see i18n below)
+favicon.svg             Brand mark; favicon-48.png / apple-touch-icon.png are fallbacks
+robots.txt, sitemap.xml
+assets/
+  css/site.css          All layout and component styles
+  css/fonts.css         @font-face for the self-hosted subsets
+  js/content.js         ← everything you'd want to edit: prices, reviews, translations
+  js/site.js            Behaviour only: carousel, accordion, language switch, scroller
+  fonts/                Cormorant Garamond + Poppins woff2 subsets
+  img/                  9 WebP photos (hero ×3, portrait, gallery ×5)
+```
+
+## Editing content
+
+Almost all copy lives in **`assets/js/content.js`**:
+
+| What | Where |
+| --- | --- |
+| Prices and service categories | `window.SERVICES` |
+| Client testimonials | `window.TESTIMONIALS` |
+| Interface strings, all 3 languages | `window.I18N` |
+| Gallery alt text and Instagram links | `window.GALLERY` |
+| Phone, social URLs | `window.SALON` |
+
+One exception: the Latvian price list and testimonials are **also** written
+directly into `index.html`. That is deliberate — search engines and visitors
+without JavaScript still see real prices and reviews, and `site.js` rebuilds
+those blocks from `content.js` the moment the language changes. If you change a
+price, change it in both places, or accept that the pre-JS paint is briefly
+stale.
+
+## Languages
+
+Latvian, Russian and English. The picker is in the header (and the mobile
+drawer). The chosen language persists in `localStorage`; a first-time visitor
+gets their browser language when it is one of the three, otherwise Latvian.
+
+Poppins ships no Cyrillic subset, so Russian body copy falls back to the
+system UI font — same as the original design. Headings use Cormorant Garamond,
+which does cover Cyrillic.
+
+## Images
+
+The nine photos came out of the design bundle as WebP at roughly display size
+(~330×412 for gallery tiles, ~700×1100 for hero slides). Two of them carry a
+hand-set crop from the design; those offsets are reproduced at the bottom of
+`site.css` rather than baked into the files, so re-exporting a photo does not
+silently lose its framing.
+
+If higher-resolution originals exist, drop them into `assets/img/` under the
+same filenames — nothing else needs to change.
+
+## Fonts
+
+Self-hosted rather than loaded from `fonts.gstatic.com`. The salon's clients
+are in the EU and serving Google Fonts from Google's CDN hands every visitor's
+IP address to a third party, which has been ruled a GDPR problem in Germany.
+Subsets included: latin, latin-ext for both families, plus Cyrillic for
+Cormorant. Vietnamese and Devanagari were dropped.
+
+## Deploying
+
+It is a static folder — any host will do. Netlify, Cloudflare Pages, GitHub
+Pages, or plain nginx: point the document root at the repository.
+
+Before going live, replace the placeholder domain `https://salonsteika.lv/`
+in `index.html` (canonical + Open Graph + JSON-LD) and `sitemap.xml`.
+
+## Not carried over from the design
+
+- **Inline testimonial editing.** The mockup let you click a quote and type over
+  it, saving to a sidecar JSON. That is a design-tool affordance; on a public
+  site it would let any visitor appear to edit the page. Reviews are edited in
+  `content.js`.
+- **The `x-dc` runtime.** The mockup shipped React plus a template interpreter
+  (~200 KB) to render a page that is entirely static. This version renders the
+  same page with ~9 KB of vanilla JS.
