@@ -70,12 +70,26 @@ Cormorant. Vietnamese and Devanagari were dropped.
 
 ## Deploying
 
-It is a static folder — any host will do. Netlify, Cloudflare Pages, GitHub
-Pages, or plain nginx: point the document root at the repository.
+Hosted on **Vercel**, deployed from this repository. There is no build step —
+Vercel serves the folder as-is. Framework preset: *Other*; build command:
+none; output directory: the repository root.
+
+`vercel.json` sets three security headers and the cache policy:
+
+- `assets/fonts/*` — one year, immutable. Those filenames never change.
+- `assets/img/*` — one day, then revalidate. Photo filenames are **not**
+  content-hashed and the section above tells you to drop replacements in under
+  the same name, so a hard cache would strand the old photo in browsers.
+- `assets/css/*`, `assets/js/*`, `*.html` — always revalidate, same reasoning.
+  ETags keep this cheap.
 
 The canonical domain is **salonsteika.com**, set in `index.html` (canonical
 link, Open Graph, JSON-LD), `sitemap.xml` and `robots.txt`. If it ever changes,
-those are the places to update.
+those are the places to update. Point the domain at Vercel in the project's
+Domains tab and add both the apex and `www`, with one redirecting to the other.
+
+Nothing here is Vercel-specific apart from `vercel.json` — the site is a plain
+static folder and will run on Netlify, Cloudflare Pages or nginx unchanged.
 
 ## Not carried over from the design
 
