@@ -41,13 +41,20 @@ stale.
 
 ## Languages
 
-Latvian, Russian and English. The picker is in the header (and the mobile
-drawer). The chosen language persists in `localStorage`; a first-time visitor
-gets their browser language when it is one of the three, otherwise Latvian.
+Latvian and English. The picker is in the header and in the mobile drawer.
+Latvian is the default for everyone; the chosen language persists in
+`localStorage`, and only an explicit previous choice overrides the default.
 
-Poppins ships no Cyrillic subset, so Russian body copy falls back to the
-system UI font — same as the original design. Headings use Cormorant Garamond,
-which does cover Cyrillic.
+The design originally shipped Russian as a third language. It was removed
+in full — interface strings, service names, testimonials and image alt text.
+A visitor still carrying `ru` in `localStorage` from before falls back to
+Latvian and the stale value is cleared.
+
+Cormorant Garamond still carries its Cyrillic subsets in `assets/fonts/`.
+They cost nothing — `unicode-range` means a browser only downloads a subset
+when the page actually renders a character in it, so with no Cyrillic text
+left they are never fetched. They are kept so restoring Russian is a content
+change rather than a font-pipeline change.
 
 ## Images
 

@@ -5,7 +5,7 @@
 (function () {
   'use strict';
 
-  var LANGS = ['lv', 'ru', 'en'];
+  var LANGS = ['lv', 'en'];
   var STORE_KEY = 'st-lang';
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   var mobile = window.matchMedia('(max-width: 900px)');
@@ -29,7 +29,10 @@
   var lang = (function () {
     var stored;
     try { stored = localStorage.getItem(STORE_KEY); } catch (e) { /* private mode */ }
-    return LANGS.indexOf(stored) > -1 ? stored : 'lv';
+    if (LANGS.indexOf(stored) > -1) return stored;
+    // Russian was removed; anyone still carrying that choice gets Latvian.
+    try { if (stored) localStorage.removeItem(STORE_KEY); } catch (e) { /* ignore */ }
+    return 'lv';
   })();
 
   function applyLang(next) {
