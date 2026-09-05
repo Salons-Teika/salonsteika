@@ -21,12 +21,15 @@
   }
 
   /* ── Language ─────────────────────────────────────────────────────────── */
+  // Latvian is the default for everyone. Guessing from navigator.language
+  // would flip a Latvian salon's own page to English for any visitor with an
+  // English browser — including locals — and make the first paint disagree
+  // with the Latvian copy that ships in the HTML. Only an explicit choice,
+  // remembered from a previous visit, overrides it.
   var lang = (function () {
     var stored;
     try { stored = localStorage.getItem(STORE_KEY); } catch (e) { /* private mode */ }
-    if (LANGS.indexOf(stored) > -1) return stored;
-    var nav = (navigator.language || 'lv').slice(0, 2).toLowerCase();
-    return LANGS.indexOf(nav) > -1 ? nav : 'lv';
+    return LANGS.indexOf(stored) > -1 ? stored : 'lv';
   })();
 
   function applyLang(next) {
