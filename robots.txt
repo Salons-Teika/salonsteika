@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://salonsteika.com/sitemap.xml
+Sitemap: https://www.salonsteika.com/sitemap.xml

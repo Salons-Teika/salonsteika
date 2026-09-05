@@ -85,11 +85,28 @@ Both set the same three security headers and the same cache policy:
 - `assets/css/*`, `assets/js/*`, `*.html` — always revalidate, same reasoning.
   ETags keep this cheap.
 
-The canonical domain is **salonsteika.com**, set in `index.html` (canonical
-link, Open Graph, JSON-LD), `sitemap.xml` and `robots.txt`. If it ever changes,
-those are the places to update. Attach the domain under the Pages project's
-Custom domains tab, adding both the apex and `www`, with one redirecting to
-the other.
+### Domain
+
+The canonical domain is **www.salonsteika.com** — the `www` subdomain, not the
+apex — set in `index.html` (canonical link, Open Graph, JSON-LD),
+`sitemap.xml` and `robots.txt`. Those are the four places to update if it ever
+changes.
+
+The `www` is not a style choice. The domain is registered at **Wix**, and Wix
+does not allow changing a domain's nameservers at all. Cloudflare Pages can
+serve a domain whose DNS lives elsewhere, but only a **subdomain**, via a
+CNAME — an apex domain requires the zone to sit on Cloudflare's nameservers.
+So while the registration stays at Wix, `salonsteika.com` cannot point here
+and `www.salonsteika.com` can.
+
+Setup, in this order (reversing it yields a 522):
+
+1. Add `www.salonsteika.com` under the Pages project's **Custom domains** tab.
+2. In Wix DNS, add a CNAME: host `www` → `salonsteika.pages.dev`, DNS-only.
+
+To get the apex working, the registration has to move off Wix to a registrar
+that permits nameserver changes; then point the nameservers at Cloudflare, add
+`salonsteika.com` as a second custom domain, and redirect it to `www`.
 
 The site is a plain static folder, so it runs unchanged on Cloudflare Pages,
 Netlify, Vercel or nginx. Two things to know if you move it:
