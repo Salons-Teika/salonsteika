@@ -477,7 +477,9 @@ section[id], [id="kontakti"] { scroll-margin-top: calc(var(--header-h) + 10px); 
   grid-template-columns: repeat(5, 1fr);
   gap: 16px;
 }
+/* .shot is an <a> — the whole tile links to Instagram, not just the icon. */
 .shot {
+  display: block;
   position: relative;
   aspect-ratio: 4 / 5;
   overflow: hidden;
@@ -504,10 +506,9 @@ section[id], [id="kontakti"] { scroll-margin-top: calc(var(--header-h) + 10px); 
   color: var(--cream);
 }
 .shot:hover .shot__veil,
-.shot:focus-within .shot__veil { opacity: 1; }
+.shot:focus-visible .shot__veil { opacity: 1; }
 .shot:hover .shot__link,
-.shot:focus-within .shot__link { opacity: 1; pointer-events: auto; }
-.shot__link:hover { color: var(--cream); }
+.shot:focus-visible .shot__link { opacity: 1; }
 
 /* Mobile: full-bleed swipe strip with a corner Instagram badge. */
 .work__strip {
@@ -515,6 +516,7 @@ section[id], [id="kontakti"] { scroll-margin-top: calc(var(--header-h) + 10px); 
   gap: 12px;
   margin-inline: calc(var(--gutter) * -1);
   padding-inline: var(--gutter);
+  scroll-padding-inline: var(--gutter);
 }
 .work__strip .shot { flex: 0 0 72%; scroll-snap-align: center; }
 .shot__badge {
@@ -530,7 +532,7 @@ section[id], [id="kontakti"] { scroll-margin-top: calc(var(--header-h) + 10px); 
   justify-content: center;
   color: var(--cream);
 }
-.shot__badge:hover { color: var(--cream); }
+
 
 @media (max-width: 900px) {
   .work__grid { display: none; }
@@ -599,6 +601,11 @@ section[id], [id="kontakti"] { scroll-margin-top: calc(var(--header-h) + 10px); 
   .reviews__strip {
     margin-inline: calc(var(--gutter) * -1);
     padding-inline: var(--gutter);
+    /* Without this the snap engine aligns the first card to the
+       scrollport edge, cancelling the padding above — the strip loaded
+       already scrolled 24px and the quotes sat flush against the screen
+       edge while every heading beside them sat at the gutter. */
+    scroll-padding-inline: var(--gutter);
   }
   .quote { width: 78%; }
   .reviews__arrow { display: none; }
@@ -727,10 +734,16 @@ section[id], [id="kontakti"] { scroll-margin-top: calc(var(--header-h) + 10px); 
 
   .services__intro { margin-bottom: 28px; }
 
+  /* Stacking all three blocks ran the footer to 600px on a 744px
+     screen. The brand keeps the full width; the nav and the contact
+     details pair up beneath it. */
   .site-footer .shell {
+    grid-template-columns: 1fr 1fr;
     padding-block: 40px 0;
-    gap: 28px;
+    gap: 28px 20px;
   }
+  .site-footer .shell > :first-child { grid-column: 1 / -1; }
+  .footer-nav { gap: 14px; }
 
   /* The oversized wordmark sat 17px from both edges and rested
      directly on the copyright rule with no gap at all. */

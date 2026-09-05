@@ -215,13 +215,17 @@
 
   /* ── Gallery ──────────────────────────────────────────────────────────── */
   function renderGalleryLabels() {
+    var view = lookup(lang, 'work.imgAria');
     $$('[data-shot]').forEach(function (el) {
       var cfg = window.GALLERY.filter(function (g) { return g.id === el.getAttribute('data-shot'); })[0];
       if (!cfg) return;
       var alt = cfg.alt[lang] || cfg.alt.lv;
       var img = $('img', el);
       if (img) img.alt = alt;
-      el.setAttribute('aria-label', alt);
+      // The whole tile is the link, so its accessible name has to say
+      // both what the photo shows and where the click goes.
+      el.setAttribute('aria-label', alt + ' — ' + view);
+      el.href = cfg.link || window.SALON.instagram;
     });
   }
 
