@@ -704,6 +704,41 @@ section[id], [id="kontakti"] { scroll-margin-top: calc(var(--header-h) + 10px); 
 }
 
 /* ─────────────────────────────────────────────────────────────
+   Phone layout
+
+   The vertical rhythm above is tuned for desktop, and its clamp()
+   floors (48–56px) are still desktop-sized on a 400px screen: a
+   105px band of empty cream opened between the gallery and the
+   reviews, and the footer ran to 600px on a 744px viewport. These
+   scale the spacing down proportionally; the desktop composition
+   is untouched.
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .hero { padding-block: 28px 40px; }
+
+  .services .shell,
+  .about .shell,
+  .work .shell { padding-block: 44px; }
+
+  .reviews .shell { padding-block: 32px 44px; }
+
+  .work__heading,
+  .reviews__heading { margin-bottom: 22px; }
+
+  .services__intro { margin-bottom: 28px; }
+
+  .site-footer .shell {
+    padding-block: 40px 0;
+    gap: 28px;
+  }
+
+  /* The oversized wordmark sat 17px from both edges and rested
+     directly on the copyright rule with no gap at all. */
+  .site-footer__band { padding: 36px 20px 18px; }
+  .site-footer__band span { font-size: 12vw; }
+}
+
+/* ─────────────────────────────────────────────────────────────
    Motion
    ───────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
